@@ -9,9 +9,9 @@ def initial_connect_db():
     Connects to the database specified in config.py
     by its path and its name.
     """
-    rv = sqlite3.connect(os.path.join(
+    con = sqlite3.connect(os.path.join(
         app.config['DB_PATH'], app.config['DB_NAME']))
-    return rv
+    return con
 
 
 def get_db_con():
