@@ -1,3 +1,9 @@
+"""
+Contains functions that display views.
+
+- index
+"""
+
 from flask import request, redirect, url_for, abort, render_template
 from . import app
 from . import db_utils

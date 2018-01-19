@@ -1,3 +1,9 @@
+"""
+Contains functions that map to api_request routes.
+
+- player
+"""
+
 from . import app
 from . import db_utils
 

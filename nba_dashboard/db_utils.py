@@ -5,10 +5,12 @@ import os
 
 
 def initial_connect_db():
-    """Connects to the specific database."""
+    """
+    Connects to the database specified in config.py
+    by its path and its name.
+    """
     rv = sqlite3.connect(os.path.join(
         app.config['DB_PATH'], app.config['DB_NAME']))
-    # rv.row_factory = sqlite3.Row
     return rv
 
 
@@ -22,6 +24,10 @@ def get_db_con():
 
 
 def exec_sql(sql, params=()):
+    """
+    Executes sql with provided params (no sql injection) and
+    returns a list of rows.
+    """
     con = get_db_con()
     cur = con.execute(sql, params)
     rows = cur.fetchall()
@@ -30,6 +36,8 @@ def exec_sql(sql, params=()):
 
 @app.teardown_appcontext
 def close_db(error):
-    """Closes the database again at the end of the request."""
+    """
+    Closes the database again at the end of the request.
+    """
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
