@@ -4,6 +4,13 @@ from . import app
 import os
 
 
+class DB_Query():
+
+    def __init__(self, column_names, rows):
+        self.column_names = column_names
+        self.rows = rows
+
+
 def initial_connect_db():
     """
     Connects to the database specified in config.py
@@ -23,15 +30,18 @@ def get_db_con():
     return g.sqlite_db
 
 
-def exec_sql(sql, params=()):
+def execute_sql(sql, params=()):
     """
     Executes sql with provided params (no sql injection) and
     returns a list of rows.
     """
     con = get_db_con()
     cur = con.execute(sql, params)
-    rows = cur.fetchall()
-    return rows
+    results = cur.fetchall()
+    column_names = [description[0]
+        for description in cur.description] if cur.description is not None else None
+
+    return DB_Query(column_names, results)
 
 
 @app.teardown_appcontext
