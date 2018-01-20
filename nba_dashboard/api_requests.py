@@ -131,7 +131,8 @@ def game_date_games_endpoint(game_date):
     games = []
 
     for game_id in game_ids:
-        games.append(game_endpoint(game_id))
+        game_json = json.loads(game_endpoint(game_id))
+        games.append(game_json)
     
     resp = {}
     resp['games'] = games
@@ -176,7 +177,7 @@ def game_endpoint(game_id):
             WHERE GAME_ID = (?)
                 AND SEASON = (?)
             ORDER BY MIN DESC;""", (game_id, CURRENT_SEASON))
-    
+
     stat_names = db_query.column_names
     try:
         team_abbrev_index = stat_names.index('TEAM_ABBREVIATION')
@@ -185,8 +186,8 @@ def game_endpoint(game_id):
     players_by_team_abbrev = defaultdict(list)
     for row in db_query.rows:
         team_abbrev = row[team_abbrev_index]
-        players_by_team_abbrev[team_abbrev] = row
-    
+        players_by_team_abbrev[team_abbrev].append(row)
+
     if len(players_by_team_abbrev.keys()) != 2:
         raise ValueError('Invalid data in the database. Did not find two teams.')
     resp = {}
