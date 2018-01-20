@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "statNames": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "logs": {
+            "type": "array",
+            "items": {
+                "type": "array"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "statNames",
+        "logs"
+    ]
+}

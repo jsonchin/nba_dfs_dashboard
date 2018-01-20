@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "team": {
+            "type": "string"
+        },
+        "position": {
+            "type": "string"
+        },
+        "pictureUrl": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "name",
+        "team",
+        "position",
+        "pictureUrl"
+    ]
+}
