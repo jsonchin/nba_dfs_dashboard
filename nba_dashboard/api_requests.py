@@ -1,9 +1,9 @@
 """
 Contains functions that map to api_request routes.
 
-- player_profile/{player_id}
-- player_log/{player_id}
-- player_averages/{player_id}
+- player/{player_id}/profile
+- player/{player_id}/logs
+- player/{player_id}/averages
 - game_date_games/{game_date}
 - game/{game_id}
 """
@@ -15,7 +15,8 @@ from collections import defaultdict
 
 CURRENT_SEASON = app.config['CURRENT_SEASON']
 
-@app.route('/player_profile/<int:player_id>')
+
+@app.route('/player/<int:player_id>/profile')
 def player_profile_endpoint(player_id):
     """
     Returns:
@@ -24,6 +25,8 @@ def player_profile_endpoint(player_id):
         - team
         - position
     """
+    print('here')
+    return ''
     position = db_utils.execute_sql("""
         SELECT MAX(POSITION)
             FROM PLAYER_POSITIONS
@@ -45,7 +48,7 @@ def player_profile_endpoint(player_id):
     return resp
 
 
-@app.route('/player_logs/<int:player_id>')
+@app.route('/player/<int:player_id>/logs')
 def player_logs_endpoint(player_id):
     """
     Returns:
@@ -82,7 +85,7 @@ def player_logs_endpoint(player_id):
     return resp
 
 
-@app.route('/player_averages/<int:player_id>')
+@app.route('/player/<int:player_id>/averages')
 def player_averages_endpoint(player_id):
     """
     Returns:
