@@ -25,7 +25,6 @@ def player_profile_endpoint(player_id):
         - team
         - position
     """
-    print('here')
     return ''
     position = db_utils.execute_sql("""
         SELECT MAX(POSITION)
@@ -112,7 +111,7 @@ def player_averages_endpoint(player_id):
                             WHERE PLAYER_ID = (?)
                                 AND SEASON = (?);""", (player_id, CURRENT_SEASON))
     resp = {}
-    resp['averages'] = db_query.rows
+    resp['averages'] = db_query.rows[0]
     resp['stat_names'] = db_query.column_names
     return resp
 
