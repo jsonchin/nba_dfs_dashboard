@@ -9,6 +9,7 @@ Contains functions that map to api_request routes.
 """
 
 from flask import request, url_for
+import json
 from . import app
 from . import db_utils
 from collections import defaultdict
@@ -26,7 +27,7 @@ def player_profile_endpoint(player_id):
         - position
     """
     position = db_utils.execute_sql("""
-        SELECT MAX(POSITION)
+        SELECT MAX(PLAYER_POSITION)
             FROM PLAYER_POSITIONS
             WHERE PLAYER_ID = (?)
                 AND SEASON = (?);""", (player_id, CURRENT_SEASON)).rows[0][0]
@@ -43,10 +44,10 @@ def player_profile_endpoint(player_id):
     resp['name'] = name
     resp['team'] = team
     resp['pictureUrl'] = str(player_id)
-    return resp
+    return json.dumps(resp)
 
 
-@app.route('/player/<int:player_id>/logs')
+@app.route('/player/<int:player_id>/logs', methods=['GET'])
 def player_logs_endpoint(player_id):
     """
     Returns:
@@ -80,7 +81,7 @@ def player_logs_endpoint(player_id):
     resp = {}
     resp['logs'] = db_query.rows
     resp['statNames'] = db_query.column_names
-    return resp
+    return json.dumps(resp)
 
 
 @app.route('/player/<int:player_id>/averages')
@@ -112,7 +113,7 @@ def player_averages_endpoint(player_id):
     resp = {}
     resp['averages'] = db_query.rows[0]
     resp['statNames'] = db_query.column_names
-    return resp
+    return json.dumps(resp)
 
 
 @app.route('/game_date_games/<string:game_date>')
@@ -134,7 +135,7 @@ def game_date_games_endpoint(game_date):
     
     resp = {}
     resp['games'] = games
-    return resp
+    return json.dumps(resp)
 
 
 @app.route('/game/<string:game_id>')
@@ -191,4 +192,4 @@ def game_endpoint(game_id):
     resp = {}
     resp['playersByTeam'] = dict(players_by_team_abbrev)
     resp['statNames'] = db_query.column_names
-    return resp
+    return json.dumps(resp)
