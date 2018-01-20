@@ -10,5 +10,5 @@ from . import db_utils
 
 @app.route('/')
 def show_index():
-    rows = db_utils.exec_sql("""SELECT * FROM PLAYER_LOGS LIMIT 10;""")
-    return render_template('index.html', rows=rows)
+    db_query = db_utils.execute_sql("""SELECT * FROM PLAYER_LOGS LIMIT 10;""")
+    return render_template('index.html', rows=db_query.rows)
