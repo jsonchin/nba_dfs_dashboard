@@ -25,7 +25,6 @@ def player_profile_endpoint(player_id):
         - team
         - position
     """
-    return ''
     position = db_utils.execute_sql("""
         SELECT MAX(POSITION)
             FROM PLAYER_POSITIONS
@@ -43,7 +42,7 @@ def player_profile_endpoint(player_id):
     resp['position'] = position
     resp['name'] = name
     resp['team'] = team
-    resp['picture_url'] = str(player_id)
+    resp['pictureUrl'] = str(player_id)
     return resp
 
 
@@ -80,7 +79,7 @@ def player_logs_endpoint(player_id):
             ORDER BY GAME_DATE DESC;""", (player_id, CURRENT_SEASON))
     resp = {}
     resp['logs'] = db_query.rows
-    resp['stat_names'] = db_query.column_names
+    resp['statNames'] = db_query.column_names
     return resp
 
 
@@ -112,7 +111,7 @@ def player_averages_endpoint(player_id):
                                 AND SEASON = (?);""", (player_id, CURRENT_SEASON))
     resp = {}
     resp['averages'] = db_query.rows[0]
-    resp['stat_names'] = db_query.column_names
+    resp['statNames'] = db_query.column_names
     return resp
 
 
@@ -190,6 +189,6 @@ def game_endpoint(game_id):
     if len(players_by_team_abbrev.keys()) != 2:
         raise ValueError('Invalid data in the database. Did not find two teams.')
     resp = {}
-    resp['players_by_team'] = dict(players_by_team_abbrev)
-    resp['stat_names'] = db_query.column_names
+    resp['playersByTeam'] = dict(players_by_team_abbrev)
+    resp['statNames'] = db_query.column_names
     return resp
