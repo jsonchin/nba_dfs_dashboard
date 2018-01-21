@@ -74,19 +74,19 @@ def player_logs_endpoint(player_id):
                 + 3 * TD3, 2) AS DK_FP,
                 WL,
                 ROUND(MIN, 0) AS MIN,
-                FGM,
-                FG_PCT,
-                FG3M,
-                FG3_PCT,
+                PTS,
                 REB,
                 AST,
                 TOV,
                 STL,
                 BLK,
-                PTS,
-                PLUS_MINUS,
                 DD2,
-                TD3
+                TD3,
+                FGM,
+                FG_PCT,
+                FG3M,
+                FG3_PCT,
+                PLUS_MINUS
             FROM PLAYER_LOGS
             WHERE PLAYER_ID = (?)
                 AND SEASON = (?)
@@ -105,21 +105,29 @@ def player_averages_endpoint(player_id):
     """
     db_query = db_utils.execute_sql("""
         SELECT
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * TOV
+                + 1.5 * DD2
+                + 3 * TD3, 2) AS DK_FP,
                 MIN,
-                FGM,
-                FG_PCT,
-                FG3M,
-                FG3_PCT,
+                PTS,
                 REB,
                 AST,
                 TOV,
                 STL,
                 BLK,
-                PTS,
-                PLUS_MINUS,
-                NBA_FANTASY_PTS,
                 DD2,
-                TD3
+                TD3,
+                FGM,
+                FG_PCT,
+                FG3M,
+                FG3_PCT,
+                PLUS_MINUS
                             FROM GENERAL_TRADITIONAL_PLAYER_STATS
                             WHERE PLAYER_ID = (?)
                                 AND SEASON = (?);""", (player_id, CURRENT_SEASON))
@@ -171,6 +179,16 @@ def game_endpoint(game_id):
                 + 2 * STL
                 + -0.5 * NBA_TO, 2) AS DK_FP,
                 MIN,
+                PTS,
+                REB,
+                OREB,
+                DREB,
+                AST,
+                STL,
+                BLK,
+                NBA_TO,
+                PLUS_MINUS,
+                PF,
                 FGM,
                 FGA,
                 FG_PCT,
@@ -180,16 +198,6 @@ def game_endpoint(game_id):
                 FTM,
                 FTA,
                 FT_PCT,
-                OREB,
-                DREB,
-                REB,
-                AST,
-                STL,
-                BLK,
-                NBA_TO,
-                PF,
-                PTS,
-                PLUS_MINUS,
                 COMMENT,
                 PLAYER_ID
             FROM GAME_INFO_TRADITIONAL
@@ -236,25 +244,25 @@ def game_team_specific_endpoint(game_id, team_abbreviation):
                 + 2 * STL
                 + -0.5 * NBA_TO, 2) AS DK_FP,
                 MIN,
+                PTS,
+                REB,
+                AST,
+                STL,
+                BLK,
+                NBA_TO,
+                PLUS_MINUS,
+                PF,
                 FGM,
                 FGA,
                 FG_PCT,
                 FG3M,
                 FG3A,
                 FG3_PCT,
+                OREB,
+                DREB,
                 FTM,
                 FTA,
                 FT_PCT,
-                OREB,
-                DREB,
-                REB,
-                AST,
-                STL,
-                BLK,
-                NBA_TO,
-                PF,
-                PTS,
-                PLUS_MINUS,
                 COMMENT,
                 PLAYER_ID
             FROM GAME_INFO_TRADITIONAL
