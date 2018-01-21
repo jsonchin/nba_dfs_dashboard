@@ -15,7 +15,7 @@ from . import db_utils
 from collections import defaultdict
 
 CURRENT_SEASON = app.config['CURRENT_SEASON']
-
+PROFILE_TEMPLATE = 'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/{team_id}/{current_season}/260x190/{player_id}.png'
 
 @app.route('/player/<int:player_id>/profile')
 def player_profile_endpoint(player_id):
@@ -32,8 +32,8 @@ def player_profile_endpoint(player_id):
             WHERE PLAYER_ID = (?)
                 AND SEASON = (?);""", (player_id, CURRENT_SEASON)).rows[0][0]
     
-    name, team = db_utils.execute_sql("""
-        SELECT PLAYER_NAME, TEAM_ABBREVIATION
+    name, team, team_id, player_id = db_utils.execute_sql("""
+        SELECT PLAYER_NAME, TEAM_ABBREVIATION, TEAM_ID, PLAYER_ID
             FROM PLAYER_LOGS
             WHERE PLAYER_ID = (?)
                 AND SEASON = (?)
@@ -43,7 +43,11 @@ def player_profile_endpoint(player_id):
     resp['position'] = position
     resp['name'] = name
     resp['team'] = team
-    resp['pictureUrl'] = str(player_id)
+    resp['pictureUrl'] = PROFILE_TEMPLATE.format(**{
+        'player_id': player_id,
+        'team_id': team_id,
+        'current_season': CURRENT_SEASON[:4]
+    })
     return json.dumps(resp)
 
 
@@ -123,7 +127,7 @@ def game_date_games_endpoint(game_date):
         - a list of GAME json
     """
     game_ids = [t[0] for t in db_utils.execute_sql("""
-        SELECT GAME_ID
+        SELECT DISTINCT GAME_ID
             FROM GAMES
             WHERE GAME_DATE = (?)
                 AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows]
@@ -152,7 +156,13 @@ def game_endpoint(game_id):
                 PLAYER_NAME,
                 TEAM_ABBREVIATION,
                 START_POSITION,
-                COMMENT,
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * NBA_TO, 2) AS DK_FP,
                 MIN,
                 FGM,
                 FGA,
@@ -172,11 +182,12 @@ def game_endpoint(game_id):
                 NBA_TO,
                 PF,
                 PTS,
-                PLUS_MINUS
+                PLUS_MINUS,
+                COMMENT
             FROM GAME_INFO_TRADITIONAL
             WHERE GAME_ID = (?)
                 AND SEASON = (?)
-            ORDER BY MIN DESC;""", (game_id, CURRENT_SEASON))
+            ORDER BY DK_FP DESC;""", (game_id, CURRENT_SEASON))
 
     stat_names = db_query.column_names
     try:
