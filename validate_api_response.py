@@ -12,11 +12,11 @@ EXAMPLE_PLAYER_IDS = [
     '1717',
     '1626257'
 ]
-EXAMPLE_GAME_IDS = [
-    '0021700667',
-    '0021700668',
-    '0021700653'
-]
+EXAMPLE_GAME_IDS = {
+    '0021700667': ('SAS', 'TOR'),
+    '0021700668': ('MIA', 'BKN'),
+    '0021700653': ('WAS', 'CHA')
+}
 EXAMPLE_GAME_DATES = [
     '2018-01-10',
     '2017-10-30'
@@ -76,6 +76,18 @@ class ValidateAPIResponses(unittest.TestCase):
             endpoint = '/' + route.format(**{'game_id': game_id})
             api_json_resp = make_request(self.app, endpoint)
             validate_api_resp(api_json_resp, route)
+
+    def test_validate_game_team_abbreviation(self):
+        for game_id in EXAMPLE_GAME_IDS:
+            team_abbreviations = EXAMPLE_GAME_IDS[game_id]
+            for team_abbreviation in team_abbreviations:
+                route = 'game/{game_id}/{team_abbreviation}'
+                endpoint = '/' + route.format(**{
+                    'game_id': game_id,
+                    'team_abbreviation': team_abbreviation
+                    })
+                api_json_resp = make_request(self.app, endpoint)
+                validate_api_resp(api_json_resp, route)
 
     def test_validate_game_date_games(self):
         for game_date in EXAMPLE_GAME_DATES:

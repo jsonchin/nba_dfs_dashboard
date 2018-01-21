@@ -214,3 +214,60 @@ def game_endpoint(game_id):
     resp['playersByTeam'] = dict(players_by_team_abbrev)
     resp['statNames'] = db_query.column_names
     return json.dumps(resp)
+
+
+@app.route('/game/<string:game_id>/<string:team_abbreviation>')
+def game_team_specific_endpoint(game_id, team_abbreviation):
+    """
+    Returns:
+        - the two teams
+        - box score stats for each of the players
+        - injury data
+    """
+    db_query = db_utils.execute_sql("""
+        SELECT
+                PLAYER_NAME,
+                TEAM_ABBREVIATION,
+                START_POSITION,
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * NBA_TO, 2) AS DK_FP,
+                MIN,
+                FGM,
+                FGA,
+                FG_PCT,
+                FG3M,
+                FG3A,
+                FG3_PCT,
+                FTM,
+                FTA,
+                FT_PCT,
+                OREB,
+                DREB,
+                REB,
+                AST,
+                STL,
+                BLK,
+                NBA_TO,
+                PF,
+                PTS,
+                PLUS_MINUS,
+                COMMENT,
+                PLAYER_ID
+            FROM GAME_INFO_TRADITIONAL
+            WHERE GAME_ID = (?)
+                AND TEAM_ABBREVIATION = (?)
+                AND SEASON = (?)
+            ORDER BY DK_FP DESC;""", (game_id, team_abbreviation, CURRENT_SEASON))
+
+    if len(db_query.rows) == 0:
+        raise ValueError('{} did not play in {}.'.format(team_abbreviation, game_id))
+
+    resp = {}
+    resp['players'] = db_query.rows
+    resp['statNames'] = db_query.column_names
+    return json.dumps(resp)

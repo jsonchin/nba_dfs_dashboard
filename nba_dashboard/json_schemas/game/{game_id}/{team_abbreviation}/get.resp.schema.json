@@ -1,0 +1,30 @@
+{
+    "definitions": {
+        "teamPlayers": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/playerGameLog"
+            }
+        },
+        "playerGameLog": {
+            "type": "array"
+        }
+    },
+    "type": "object",
+    "properties": {
+        "statNames": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "players": {
+            "$ref": "#/definitions/teamPlayers"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "statNames",
+        "players"
+    ]
+}
