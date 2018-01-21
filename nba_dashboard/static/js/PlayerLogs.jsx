@@ -23,7 +23,10 @@ const COLUMN_WIDTHS = {
 const PLAYER_LOGS_STYLE = {
     width: '100%',
     fontSize: '12px',
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: '30px', // can't seem to get marginTop and marginBottom to work
+    marginLeft: '0px',
+    marginRight: '0px'
 };
 
 const MAX_LOGS_PER_PAGE = 10;

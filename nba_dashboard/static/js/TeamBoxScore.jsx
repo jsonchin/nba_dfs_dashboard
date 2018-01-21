@@ -29,7 +29,10 @@ const TEAM_BOX_SCORE_TABLE_STYLE = {
     width: '100%',
     fontSize: '12px',
     float: 'left',
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: '30px', // can't seem to get marginTop and marginBottom to work
+    marginLeft: '0px',
+    marginRight: '0px'
 };
 
 export class TeamBoxScore extends React.Component {
@@ -74,7 +77,7 @@ export class TeamBoxScore extends React.Component {
                 data={mappedRows}
                 columns={[
                     {
-                        Header: header,
+                        Header: () => <span><b>{header}</b></span>,
                         columns: columns
                     }
                 ]}
