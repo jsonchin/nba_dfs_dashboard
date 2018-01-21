@@ -1,6 +1,8 @@
 import React from "react";
 import ReactTable from 'react-table'
 import { mapMultipleRowsToCol, constructReactTableColumns, HEADER_MAP } from './utils'
+import { TeamBoxScore } from './TeamBoxScore'
+
 
 const IGNORE_STATS = new Set([
     'GAME_ID',
@@ -16,6 +18,12 @@ const IGNORE_STATS = new Set([
 
 const COLUMN_WIDTHS = {
     'MIN': 40
+};
+
+const PLAYER_LOGS_STYLE = {
+    width: '100%',
+    fontSize: '12px',
+    textAlign: 'center'
 };
 
 const MAX_LOGS_PER_PAGE = 10;
@@ -62,9 +70,16 @@ export class PlayerLogs extends React.Component {
                 className={'-striped -highlight'}
                 data={mappedRows}
                 columns={columns}
+                sortable={false}
+                SubComponent={
+                    (row) => {
+                        return (<TeamBoxScore gameId={row.original.GAME_ID} teamAbbreviation={row.original.TEAM_ABBREVIATION} />);
+                    }
+                }
                 showPagination={false}
                 showPageJump={false}
                 defaultPageSize={MAX_LOGS_PER_PAGE}
+                style={PLAYER_LOGS_STYLE}
             />);
         }
     }

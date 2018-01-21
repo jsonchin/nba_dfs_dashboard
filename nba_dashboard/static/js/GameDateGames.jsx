@@ -55,7 +55,7 @@ export class GameDateGames extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            games: [],
+            gameIdsToTeams: null,
             date: gameDate
         };
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -76,10 +76,9 @@ export class GameDateGames extends React.Component {
             .then(res => res.json())
             .then(
             (result) => {
-                console.log(result);
                 this.setState({
                     isLoaded: true,
-                    games: result.games
+                    gameIdsToTeams: result.gameIds
                 });
             },
             // Note: it's important to handle errors here
@@ -106,8 +105,8 @@ export class GameDateGames extends React.Component {
                 onDateChange={this.handleDateChange}
             />)
 
-            const teamBoxScores = this.state.games.map((game, i) =>
-                <GameBoxScore game={game} key={i} />
+            const teamBoxScores = Object.keys(this.state.gameIdsToTeams).map((gameId) =>
+                <GameBoxScore gameId={gameId} teamAbbreviations={this.state.gameIdsToTeams[gameId]} key={gameId} />
             );
 
             if (teamBoxScores.length == 0) {
