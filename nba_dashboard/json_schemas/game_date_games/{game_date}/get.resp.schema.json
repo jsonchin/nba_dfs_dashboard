@@ -1,51 +1,23 @@
 {
-    "definitions": {
-        "game": {
-            "type": "object",
-            "properties": {
-                "statNames": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "playersByTeam": {
-                    "type": "object",
-                    "patternProperties": {
-                        "^[A-Z]{3}$": {
-                            "$ref": "#/definitions/teamPlayers"
-                        }
-                    },
-                    "additionalProperties": false
-                }
-            },
-            "additionalProperties": false,
-            "required": [
-                "statNames",
-                "playersByTeam"
-            ]
-        },
-        "teamPlayers": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/playerGameLog"
-            }
-        },
-        "playerGameLog": {
-            "type": "array"
-        }
-    },
     "type": "object",
     "properties": {
-        "games": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/game"
+        "gameIds": {
+            "type": "object",
+            "patternProperties": {
+                "^[0-9]{0, 20}$": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                }
             }
-        }
+        }  
     },
     "additionalProperties": false,
     "required": [
-        "games"
+        "gameIds"
     ]
 }

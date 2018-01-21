@@ -134,20 +134,18 @@ def game_date_games_endpoint(game_date):
     Returns:
         - a list of GAME json
     """
-    game_ids = [t[0] for t in db_utils.execute_sql("""
-        SELECT DISTINCT GAME_ID
+    games = db_utils.execute_sql("""
+        SELECT DISTINCT GAME_ID, TEAM_ABBREVIATION
             FROM GAMES
             WHERE GAME_DATE = (?)
-                AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows]
+                AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows
     
-    games = []
-
-    for game_id in game_ids:
-        game_json = json.loads(game_endpoint(game_id))
-        games.append(game_json)
+    games_to_team = defaultdict(list)
+    for game_id, team_abbreviation in games:
+        games_to_team[game_id].append(team_abbreviation)
     
     resp = {}
-    resp['games'] = games
+    resp['gameIds'] = games_to_team
     return json.dumps(resp)
 
 
