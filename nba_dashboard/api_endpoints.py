@@ -187,7 +187,7 @@ def game_endpoint(game_id):
             FROM GAME_INFO_TRADITIONAL
             WHERE GAME_ID = (?)
                 AND SEASON = (?)
-            ORDER BY MIN DESC;""", (game_id, CURRENT_SEASON))
+            ORDER BY DK_FP DESC;""", (game_id, CURRENT_SEASON))
 
     stat_names = db_query.column_names
     try:
