@@ -26,38 +26,72 @@ const COLUMN_WIDTHS = {
 const MAX_PLAYERS_PER_TEAM = 14;
 
 const TEAM_BOX_SCORE_TABLE_STYLE = {
-    width: '48%',
+    width: '100%',
     fontSize: '12px',
     float: 'left',
-    margin: '10px',
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: '30px', // can't seem to get marginTop and marginBottom to work
+    marginLeft: '0px',
+    marginRight: '0px'
 };
 
 export class TeamBoxScore extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            error: null,
+            isLoaded: false,
+            data: null
+        };
+
+        fetch('/game/' + this.props.gameId + '/' + this.props.teamAbbreviation)
+            .then((res) => res.json())
+            .then((result) => {
+                this.setState({
+                    isLoaded: true,
+                    data: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error: error
+                });
+            });
+    }
+
     render() {
-        const columnNames = this.props.statNames;
-        const header = this.props.teamName;
-        const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, HEADER_MAP, IGNORE_STATS);
-        const mappedRows = mapMultipleRowsToCol(columnNames, this.props.players);
-        return (<ReactTable
-            className={'-striped -highlight'}
-            data={mappedRows}
-            columns={[
-                {
-                    Header: header,
-                    columns: columns
+        const { error, isLoaded } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            const columnNames = this.state.data.statNames;
+            const header = this.props.teamAbbreviation;
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, HEADER_MAP, IGNORE_STATS);
+            const mappedRows = mapMultipleRowsToCol(columnNames, this.state.data.players);
+            return (<ReactTable
+                className={'-striped -highlight'}
+                data={mappedRows}
+                columns={[
+                    {
+                        Header: () => <span><b>{header}</b></span>,
+                        columns: columns
+                    }
+                ]}
+                Header={this.props.teamName}
+                SubComponent={
+                    (row) => {
+                        return (<PlayerLogs playerId={row.original.PLAYER_ID} />);
+                    }
                 }
-            ]}
-            Header={this.props.teamName}
-            SubComponent={
-                (row) => {
-                    return (<PlayerLogs playerId={row.original.PLAYER_ID} />);
-                }
-            }
-            showPagination={false}
-            showPageJump={false}
-            defaultPageSize={MAX_PLAYERS_PER_TEAM}
-            style={TEAM_BOX_SCORE_TABLE_STYLE}
-        />);
+                showPagination={false}
+                showPageJump={false}
+                defaultPageSize={MAX_PLAYERS_PER_TEAM}
+                style={TEAM_BOX_SCORE_TABLE_STYLE}
+            />);
+        }
     }
 }

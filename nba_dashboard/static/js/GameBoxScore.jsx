@@ -5,25 +5,30 @@ import { TeamBoxScore } from './TeamBoxScore'
 const GAME_CONTAINER_STYLE = {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'baseline',
     width: '100%'
+};
+
+const GAME_TEAM_BOX_SCORE_STYLE = {
+    width: '48%',
+    margin: '10px'
 };
 
 export class GameBoxScore extends React.Component {
     render() {
-        const statNames = this.props.game.statNames;
-        const playersByTeam = this.props.game.playersByTeam;
-
-        const playingTeams = Object.keys(playersByTeam).map((team) =>
-            <TeamBoxScore players={playersByTeam[team]}
-                statNames={statNames}
-                teamName={team}
-                key={team} />
+        const playingTeams = this.props.teamAbbreviations.map((teamAbbreviation) =>
+            <TeamBoxScore gameId={this.props.gameId} teamAbbreviation={teamAbbreviation}
+                key={teamAbbreviation} />
         );
 
         return (
             <div className={'game-container'} style={GAME_CONTAINER_STYLE}>
-                {playingTeams}
+                <div style={GAME_TEAM_BOX_SCORE_STYLE}>
+                    {playingTeams[0]}
+                </div>
+
+                <div style={GAME_TEAM_BOX_SCORE_STYLE}>
+                    {playingTeams[1]}
+                </div>
             </div>
         );
     }

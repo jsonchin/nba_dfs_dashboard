@@ -1,8 +1,10 @@
+import React from "react";
+
 const SHARED_COLUMN_WIDTHS = {
     'PLAYER_NAME': 120,
     'GAME_DATE': 90,
     'MATCHUP': 90,
-    'DK_FP': 50
+    'DK_FP': 60
 };
 
 export const HEADER_MAP = {
@@ -40,8 +42,10 @@ export function constructReactTableColumns(colNames, columnWidths, mapping, igno
                 width = SHARED_COLUMN_WIDTHS[colName];
             }
 
+            const header = colName in mapping ? mapping[colName] : colName;
+
             const colProps = {
-                'Header': colName in mapping ? mapping[colName] : colName,
+                'Header': <b>{header}</b>,
                 'accessor': colName,
                 'width': width,
                 'minWidth': undefined

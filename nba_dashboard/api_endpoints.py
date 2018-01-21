@@ -60,6 +60,7 @@ def player_logs_endpoint(player_id):
     db_query = db_utils.execute_sql("""
         SELECT
                 GAME_ID,
+                TEAM_ABBREVIATION,
                 GAME_DATE,
                 MATCHUP,
                 ROUND(PTS
@@ -134,20 +135,18 @@ def game_date_games_endpoint(game_date):
     Returns:
         - a list of GAME json
     """
-    game_ids = [t[0] for t in db_utils.execute_sql("""
-        SELECT DISTINCT GAME_ID
+    games = db_utils.execute_sql("""
+        SELECT DISTINCT GAME_ID, TEAM_ABBREVIATION
             FROM GAMES
             WHERE GAME_DATE = (?)
-                AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows]
+                AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows
     
-    games = []
-
-    for game_id in game_ids:
-        game_json = json.loads(game_endpoint(game_id))
-        games.append(game_json)
+    games_to_team = defaultdict(list)
+    for game_id, team_abbreviation in games:
+        games_to_team[game_id].append(team_abbreviation)
     
     resp = {}
-    resp['games'] = games
+    resp['gameIds'] = games_to_team
     return json.dumps(resp)
 
 
@@ -212,5 +211,62 @@ def game_endpoint(game_id):
         raise ValueError('Invalid data in the database. Did not find two teams.')
     resp = {}
     resp['playersByTeam'] = dict(players_by_team_abbrev)
+    resp['statNames'] = db_query.column_names
+    return json.dumps(resp)
+
+
+@app.route('/game/<string:game_id>/<string:team_abbreviation>')
+def game_team_specific_endpoint(game_id, team_abbreviation):
+    """
+    Returns:
+        - the two teams
+        - box score stats for each of the players
+        - injury data
+    """
+    db_query = db_utils.execute_sql("""
+        SELECT
+                PLAYER_NAME,
+                TEAM_ABBREVIATION,
+                START_POSITION,
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * NBA_TO, 2) AS DK_FP,
+                MIN,
+                FGM,
+                FGA,
+                FG_PCT,
+                FG3M,
+                FG3A,
+                FG3_PCT,
+                FTM,
+                FTA,
+                FT_PCT,
+                OREB,
+                DREB,
+                REB,
+                AST,
+                STL,
+                BLK,
+                NBA_TO,
+                PF,
+                PTS,
+                PLUS_MINUS,
+                COMMENT,
+                PLAYER_ID
+            FROM GAME_INFO_TRADITIONAL
+            WHERE GAME_ID = (?)
+                AND TEAM_ABBREVIATION = (?)
+                AND SEASON = (?)
+            ORDER BY DK_FP DESC;""", (game_id, team_abbreviation, CURRENT_SEASON))
+
+    if len(db_query.rows) == 0:
+        raise ValueError('{} did not play in {}.'.format(team_abbreviation, game_id))
+
+    resp = {}
+    resp['players'] = db_query.rows
     resp['statNames'] = db_query.column_names
     return json.dumps(resp)
