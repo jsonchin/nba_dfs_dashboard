@@ -60,6 +60,7 @@ def player_logs_endpoint(player_id):
     db_query = db_utils.execute_sql("""
         SELECT
                 GAME_ID,
+                TEAM_ABBREVIATION,
                 GAME_DATE,
                 MATCHUP,
                 ROUND(PTS
