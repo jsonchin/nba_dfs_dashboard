@@ -62,8 +62,17 @@ def player_logs_endpoint(player_id):
                 GAME_ID,
                 GAME_DATE,
                 MATCHUP,
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * TOV
+                + 1.5 * DD2
+                + 3 * TD3, 2) AS DK_FP,
                 WL,
-                MIN,
+                ROUND(MIN, 0) AS MIN,
                 FGM,
                 FG_PCT,
                 FG3M,
@@ -75,7 +84,6 @@ def player_logs_endpoint(player_id):
                 BLK,
                 PTS,
                 PLUS_MINUS,
-                NBA_FANTASY_PTS,
                 DD2,
                 TD3
             FROM PLAYER_LOGS
@@ -183,7 +191,8 @@ def game_endpoint(game_id):
                 PF,
                 PTS,
                 PLUS_MINUS,
-                COMMENT
+                COMMENT,
+                PLAYER_ID
             FROM GAME_INFO_TRADITIONAL
             WHERE GAME_ID = (?)
                 AND SEASON = (?)
