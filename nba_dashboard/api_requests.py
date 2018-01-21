@@ -123,7 +123,7 @@ def game_date_games_endpoint(game_date):
         - a list of GAME json
     """
     game_ids = [t[0] for t in db_utils.execute_sql("""
-        SELECT GAME_ID
+        SELECT DISTINCT GAME_ID
             FROM GAMES
             WHERE GAME_DATE = (?)
                 AND SEASON = (?);""", (game_date, CURRENT_SEASON)).rows]
@@ -152,7 +152,13 @@ def game_endpoint(game_id):
                 PLAYER_NAME,
                 TEAM_ABBREVIATION,
                 START_POSITION,
-                COMMENT,
+                ROUND(PTS
+                + 0.5 * FG3M
+                + 1.25 * REB
+                + 1.5 * AST
+                + 2 * BLK
+                + 2 * STL
+                + -0.5 * NBA_TO, 2) AS DK_FP,
                 MIN,
                 FGM,
                 FGA,
@@ -172,7 +178,8 @@ def game_endpoint(game_id):
                 NBA_TO,
                 PF,
                 PTS,
-                PLUS_MINUS
+                PLUS_MINUS,
+                COMMENT
             FROM GAME_INFO_TRADITIONAL
             WHERE GAME_ID = (?)
                 AND SEASON = (?)
