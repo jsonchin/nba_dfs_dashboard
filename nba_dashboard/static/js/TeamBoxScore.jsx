@@ -2,6 +2,7 @@ import React from "react";
 import ReactTable from 'react-table'
 import { mapMultipleRowsToCol, constructReactTableColumns, HEADER_MAP } from './utils'
 import { PlayerLogs } from './PlayerLogs'
+import { PlayerProfile } from './PlayerProfile'
 
 
 const IGNORE_STATS = new Set([
@@ -29,10 +30,7 @@ const TEAM_BOX_SCORE_TABLE_STYLE = {
     width: '100%',
     fontSize: '12px',
     float: 'left',
-    textAlign: 'center',
-    margin: '30px', // can't seem to get marginTop and marginBottom to work
-    marginLeft: '0px',
-    marginRight: '0px'
+    textAlign: 'center'
 };
 
 export class TeamBoxScore extends React.Component {
@@ -84,7 +82,12 @@ export class TeamBoxScore extends React.Component {
                 Header={this.props.teamName}
                 SubComponent={
                     (row) => {
-                        return (<PlayerLogs playerId={row.original.PLAYER_ID} />);
+                        return (
+                            <div>
+                                <PlayerProfile playerId={row.original.PLAYER_ID} />
+                                <PlayerLogs playerId={row.original.PLAYER_ID} />
+                            </div>
+                        );
                     }
                 }
                 showPagination={false}
