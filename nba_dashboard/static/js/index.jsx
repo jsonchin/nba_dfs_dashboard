@@ -7,6 +7,7 @@ import {
     Link
 } from 'react-router-dom'
 import { GameDateGames } from './GameDateGames'
+import { GameDayAnalysis } from './GameDayAnalysis/GameDayAnalysis'
 
 
 const RouterSidebar = () => (
@@ -15,28 +16,20 @@ const RouterSidebar = () => (
             <nav className={'navbar navbar-toggleable-md navbar-inverse bg-inverse'} style={{ marginBottom: '20px' }}>
                 <ul className={'navbar-nav mr-auto'}>
                     <li className={'nav-item'}><Link className={'nav-link'} to="/">Home</Link></li>
-                    <li className={'nav-item'}><Link className={'nav-link'} to="/gameDateGames">Game Date Games</Link></li>
-                    <li className={'nav-item'}><Link className={'nav-link'} to="/players">Players</Link></li>
+                    <li className={'nav-item'}><Link className={'nav-link'} to="/gameDateGames">Previous Games</Link></li>
+                    <li className={'nav-item'}><Link className={'nav-link'} to="/gameDayAnalysis">Game Day Analysis</Link></li>
                 </ul>
             </nav>
 
             <Route exact path="/" component={Home} />
             <Route path="/gameDateGames" component={GameDateGames} />
-            <Route path="/players" component={Players} />
+            <Route path="/gameDayAnalysis" component={GameDayAnalysis} />
         </div>
     </Router>
 )
 
 const Home = () => (
-    <div>
-        <h2>Home</h2>
-    </div>
-)
-
-const Players = () => (
-    <div>
-        <h2>Players</h2>
-    </div>
+    <h2>Home</h2>
 )
 
 ReactDOM.render(<RouterSidebar />, document.getElementById("content"));

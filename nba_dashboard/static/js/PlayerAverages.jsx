@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTable from 'react-table'
-import { mapMultipleRowsToCol, constructReactTableColumns, HEADER_MAP } from './utils'
+import { mapMultipleRowsToCol, constructReactTableColumns } from './utils'
 
 
 const IGNORE_STATS = new Set([
@@ -62,7 +62,7 @@ export class PlayerAverages extends React.Component {
             const row = this.state.data.averages;
             const rows = [row];
             const mappedRows = mapMultipleRowsToCol(columnNames, rows);
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, HEADER_MAP, IGNORE_STATS);
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, IGNORE_STATS);
 
             return (<ReactTable
                 className={'-striped -highlight'}

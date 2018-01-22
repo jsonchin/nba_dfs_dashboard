@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTable from 'react-table'
-import { mapMultipleRowsToCol, constructReactTableColumns, HEADER_MAP } from './utils'
+import { mapMultipleRowsToCol, constructReactTableColumns } from './utils'
 import { PlayerLogs } from './PlayerLogs'
 import { PlayerProfile } from './PlayerProfile'
 
@@ -68,7 +68,7 @@ export class TeamBoxScore extends React.Component {
         } else {
             const columnNames = this.state.data.statNames;
             const header = this.props.teamAbbreviation;
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, HEADER_MAP, IGNORE_STATS);
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, IGNORE_STATS);
             const mappedRows = mapMultipleRowsToCol(columnNames, this.state.data.players);
             return (<ReactTable
                 className={'-striped -highlight'}

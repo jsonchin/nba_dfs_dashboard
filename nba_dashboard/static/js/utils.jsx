@@ -28,10 +28,10 @@ export function mapMultipleRowsToCol(colNames, rows) {
  * Creates the columns prop for ReactTable.
  * @param {String[]} colNames 
  * @param {Object} columnWidths 
- * @param {Object} mapping 
+ * @param {Object} headerMapping
  * @param {Set} ignoreCols 
  */
-export function constructReactTableColumns(colNames, columnWidths, mapping, ignoreCols) {
+export function constructReactTableColumns(colNames, columnWidths, headerMapping, ignoreCols) {
     const reactTableColumns = [];
     colNames.forEach((colName) => {
         if (!(ignoreCols.has(colName))) {
@@ -42,7 +42,12 @@ export function constructReactTableColumns(colNames, columnWidths, mapping, igno
                 width = SHARED_COLUMN_WIDTHS[colName];
             }
 
-            const header = colName in mapping ? mapping[colName] : colName;
+            let header = colName;
+            if (colName in headerMapping) {
+                header = headerMapping[colName];
+            } else if (colName in HEADER_MAP) {
+                header = HEADER_MAP[colName];
+            }
 
             const colProps = {
                 'Header': <b>{header}</b>,
