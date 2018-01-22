@@ -42,7 +42,12 @@ export function constructReactTableColumns(colNames, columnWidths, mapping, igno
                 width = SHARED_COLUMN_WIDTHS[colName];
             }
 
-            const header = colName in mapping ? mapping[colName] : colName;
+            let header = colName;
+            if (colName in mapping) {
+                header = mapping[colName];
+            } else if (colName in HEADER_MAP) {
+                header = HEADER_MAP[colName];
+            }
 
             const colProps = {
                 'Header': <b>{header}</b>,
