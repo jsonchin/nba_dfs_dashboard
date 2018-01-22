@@ -112,8 +112,8 @@ def player_averages_endpoint(player_id):
                 + 2 * BLK
                 + 2 * STL
                 + -0.5 * TOV
-                + 1.5 * DD2
-                + 3 * TD3, 2) AS DK_FP,
+                + COALESCE(1.5 * (CAST(DD2 AS FLOAT) / GP), 0)
+                + COALESCE(3 * (CAST(TD3 AS FLOAT) / GP), 0), 2) AS DK_FP,
                 MIN,
                 PTS,
                 REB,
@@ -121,16 +121,18 @@ def player_averages_endpoint(player_id):
                 TOV,
                 STL,
                 BLK,
-                DD2,
-                TD3,
+                COALESCE((CAST(DD2 AS FLOAT) / GP), 0) AS DD2,
+                COALESCE((CAST(TD3 AS FLOAT) / GP), 0) AS TD3,
                 FGM,
                 FG_PCT,
                 FG3M,
                 FG3_PCT,
                 PLUS_MINUS
-                            FROM GENERAL_TRADITIONAL_PLAYER_STATS
-                            WHERE PLAYER_ID = (?)
-                                AND SEASON = (?);""", (player_id, CURRENT_SEASON))
+            FROM GENERAL_TRADITIONAL_PLAYER_STATS
+            WHERE PLAYER_ID = (?)
+                AND SEASON = (?)
+            ORDER BY DATE_TO DESC
+            LIMIT 1;""", (player_id, CURRENT_SEASON))
     resp = {}
     resp['averages'] = db_query.rows[0]
     resp['statNames'] = db_query.column_names
