@@ -105,7 +105,8 @@ export class GameDateGames extends React.Component {
                 onDateChange={this.handleDateChange}
             />)
 
-            const teamBoxScores = Object.keys(this.state.gameIdsToTeams).map((gameId) =>
+            // sort to provide a consistent ordering
+            const teamBoxScores = Object.keys(this.state.gameIdsToTeams).sort().map((gameId) =>
                 <GameBoxScore gameId={gameId} teamAbbreviations={this.state.gameIdsToTeams[gameId]} key={gameId} />
             );
 
