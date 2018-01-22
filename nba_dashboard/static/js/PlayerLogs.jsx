@@ -11,7 +11,6 @@ const IGNORE_STATS = new Set([
     'FT_PCT',
     'PF',
     'TEAM_ABBREVIATION',
-    'COMMENT',
     'FG3A',
     'FGA'
 ]);
@@ -24,9 +23,7 @@ const PLAYER_LOGS_STYLE = {
     width: '100%',
     fontSize: '12px',
     textAlign: 'center',
-    margin: '30px', // can't seem to get marginTop and marginBottom to work
-    marginLeft: '0px',
-    marginRight: '0px'
+    marginBottom: '40px'
 };
 
 const MAX_LOGS_PER_PAGE = 10;
@@ -79,8 +76,7 @@ export class PlayerLogs extends React.Component {
                         return (<TeamBoxScore gameId={row.original.GAME_ID} teamAbbreviation={row.original.TEAM_ABBREVIATION} />);
                     }
                 }
-                showPagination={false}
-                showPageJump={false}
+                resizable={false}
                 defaultPageSize={MAX_LOGS_PER_PAGE}
                 style={PLAYER_LOGS_STYLE}
             />);
