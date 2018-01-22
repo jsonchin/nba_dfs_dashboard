@@ -76,6 +76,8 @@ export class PlayerLogs extends React.Component {
                         return (<TeamBoxScore gameId={row.original.GAME_ID} teamAbbreviation={row.original.TEAM_ABBREVIATION} />);
                     }
                 }
+                showPagination={false}
+                showPageJump={false}
                 resizable={false}
                 defaultPageSize={MAX_LOGS_PER_PAGE}
                 style={PLAYER_LOGS_STYLE}
