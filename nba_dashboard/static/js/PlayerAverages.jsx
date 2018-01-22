@@ -1,39 +1,31 @@
 import React from "react";
 import ReactTable from 'react-table'
 import { mapMultipleRowsToCol, constructReactTableColumns, HEADER_MAP } from './utils'
-import { PlayerLogs } from './PlayerLogs'
-import { PlayerProfile } from './PlayerProfile'
 
 
 const IGNORE_STATS = new Set([
-    'GAME_ID',
     'FTA',
     'FTM',
     'FT_PCT',
     'PF',
     'TEAM_ABBREVIATION',
-    'COMMENT',
     'FG3A',
-    'FGA',
-    'PLAYER_ID'
+    'FGA'
 ]);
 
 const COLUMN_WIDTHS = {
-    'PLAYER_NAME': 120,
-    'GAME_DATE': 90,
-    'MATCHUP': 90
+    'MIN': 40
 };
 
-const MAX_PLAYERS_PER_TEAM = 14;
-
-const TEAM_BOX_SCORE_TABLE_STYLE = {
+const PLAYER_AVERAGES_STYLE = {
     width: '100%',
     fontSize: '12px',
-    float: 'left',
     textAlign: 'center'
 };
 
-export class TeamBoxScore extends React.Component {
+const MAX_LOGS_PER_PAGE = 1;
+
+export class PlayerAverages extends React.Component {
     constructor(props) {
         super(props);
 
@@ -43,7 +35,7 @@ export class TeamBoxScore extends React.Component {
             data: null
         };
 
-        fetch('/game/' + this.props.gameId + '/' + this.props.teamAbbreviation)
+        fetch('/player/' + this.props.playerId + '/averages')
             .then((res) => res.json())
             .then((result) => {
                 this.setState({
@@ -67,33 +59,21 @@ export class TeamBoxScore extends React.Component {
             return <div>Loading...</div>;
         } else {
             const columnNames = this.state.data.statNames;
-            const header = this.props.teamAbbreviation;
+            const row = this.state.data.averages;
+            const rows = [row];
+            const mappedRows = mapMultipleRowsToCol(columnNames, rows);
             const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, HEADER_MAP, IGNORE_STATS);
-            const mappedRows = mapMultipleRowsToCol(columnNames, this.state.data.players);
+
             return (<ReactTable
                 className={'-striped -highlight'}
                 data={mappedRows}
-                columns={[
-                    {
-                        Header: () => <span><b>{header}</b></span>,
-                        columns: columns
-                    }
-                ]}
-                Header={this.props.teamName}
-                SubComponent={
-                    (row) => {
-                        return (
-                            <div>
-                                <PlayerProfile playerId={row.original.PLAYER_ID} />
-                                <PlayerLogs playerId={row.original.PLAYER_ID} />
-                            </div>
-                        );
-                    }
-                }
+                columns={columns}
+                sortable={false}
+                resizable={false}
                 showPagination={false}
                 showPageJump={false}
-                defaultPageSize={MAX_PLAYERS_PER_TEAM}
-                style={TEAM_BOX_SCORE_TABLE_STYLE}
+                defaultPageSize={MAX_LOGS_PER_PAGE}
+                style={PLAYER_AVERAGES_STYLE}
             />);
         }
     }
