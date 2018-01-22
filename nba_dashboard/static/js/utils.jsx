@@ -2,7 +2,7 @@ import React from "react";
 
 const SHARED_COLUMN_WIDTHS = {
     'PLAYER_NAME': 120,
-    'GAME_DATE': 90,
+    'GAME_DATE': 80,
     'MATCHUP': 90,
     'DK_FP': 60
 };
