@@ -1,7 +1,7 @@
 """
 Contains functions that map to api_request routes.
 
-- file_upload/draftkings
+- /file_upload/draftkings
 """
 
 from flask import request

@@ -1,7 +1,7 @@
 """
 Contains functions that map to api_request routes.
 
-- game_date_games/{game_date}
+- /game_date_games/{game_date}
 """
 
 from flask import request, url_for

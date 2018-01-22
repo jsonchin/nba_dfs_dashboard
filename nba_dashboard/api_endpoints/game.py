@@ -1,7 +1,8 @@
 """
 Contains functions that map to api_request routes.
 
-- game/{game_id}
+- /game/{game_id}
+- /game/{game_id}/{team_abbreviation}
 """
 
 from flask import request, url_for
