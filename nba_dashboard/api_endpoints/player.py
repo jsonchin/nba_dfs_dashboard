@@ -1,9 +1,9 @@
 """
 Contains functions that map to api_request routes.
 
-- player/{player_id}/profile
-- player/{player_id}/logs
-- player/{player_id}/averages
+- /player/{player_id}/profile
+- /player/{player_id}/logs
+- /player/{player_id}/averages
 """
 
 from flask import request, url_for

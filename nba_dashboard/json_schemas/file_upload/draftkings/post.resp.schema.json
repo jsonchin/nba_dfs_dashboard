@@ -1,0 +1,56 @@
+{
+    "definitions": {
+        "nbaTeamAbbreivation": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+        },
+        "matchedPlayer": {
+            "type": "object",
+            "properties": {
+                "matchedName": {
+                    "type": "string"
+                },
+                "matchedPlayerId": {
+                    "type": "integer"
+                },
+                "salary": {
+                    "type": "integer"
+                },
+                "formattedNBAMatchup": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3} (@|vs[.]) [A-Z]{3}$"
+                },
+                "team": {
+                    "$ref": "#/definitions/nbaTeamAbbreivation"
+                },
+                "opponentTeam": {
+                    "$ref": "#/definitions/nbaTeamAbbreivation"
+                },
+                "position": {
+                    "type":"string",
+                    "pattern": "^((PG|SG|PF|SF|C)/)*(PG|SG|PF|SF|C)$"
+                }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "matchedPlayers": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/matchedPlayer"
+            }
+        },
+        "unmatchedPlayerNames": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "matchedPlayers",
+        "unmatchedPlayerNames"
+    ]
+}
