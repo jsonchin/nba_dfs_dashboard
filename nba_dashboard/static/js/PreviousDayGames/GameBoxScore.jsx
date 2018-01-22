@@ -1,5 +1,5 @@
 import React from "react";
-import { TeamBoxScore } from './TeamBoxScore'
+import { TeamBoxScore } from '../TeamBoxScore'
 
 
 const GAME_CONTAINER_STYLE = {

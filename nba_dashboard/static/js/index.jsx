@@ -6,7 +6,7 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-import { GameDateGames } from './GameDateGames'
+import { GameDateGames } from './PreviousDayGames/GameDateGames'
 import { GameDayAnalysis } from './GameDayAnalysis/GameDayAnalysis'
 
 
