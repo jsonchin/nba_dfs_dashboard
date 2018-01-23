@@ -1,0 +1,40 @@
+{
+    "definitions": {
+        "nbaTeamAbbreviation": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+        },
+        "player": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "playerId": {
+                    "type": "integer"
+                },
+                "team": {
+                    "$ref": "#/definitions/nbaTeamAbbreviation"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "isInjured": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "teamRoster": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/player"
+            }
+        }
+    },
+    "type": "object",
+    "patternProperties": {
+        "^[A-Z]{3}$": {
+            "$ref": "#/definitions/teamRoster"
+        }
+    }
+}
