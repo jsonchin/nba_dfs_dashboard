@@ -127,6 +127,12 @@ class ValidateAPIResponses(unittest.TestCase):
                 }
             )
         validate_api_post_resp(api_json_resp, route)
+
+    def test_validate_lineups(self):
+        route = 'lineups'
+        endpoint = '/' + route
+        api_json_resp = make_get_request(self.app, endpoint)
+        validate_api_get_resp(api_json_resp, route)
         
 
 if __name__ == '__main__':
