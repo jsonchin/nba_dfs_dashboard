@@ -1,6 +1,6 @@
 {
     "definitions": {
-        "nbaTeamAbbreivation": {
+        "nbaTeamAbbreviation": {
             "type": "string",
             "pattern": "^[A-Z]{3}$"
         },
@@ -21,10 +21,10 @@
                     "pattern": "^[A-Z]{3} (@|vs[.]) [A-Z]{3}$"
                 },
                 "team": {
-                    "$ref": "#/definitions/nbaTeamAbbreivation"
+                    "$ref": "#/definitions/nbaTeamAbbreviation"
                 },
                 "opponentTeam": {
-                    "$ref": "#/definitions/nbaTeamAbbreivation"
+                    "$ref": "#/definitions/nbaTeamAbbreviation"
                 },
                 "position": {
                     "type":"string",
