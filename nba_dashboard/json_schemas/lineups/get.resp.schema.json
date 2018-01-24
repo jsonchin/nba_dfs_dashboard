@@ -32,9 +32,22 @@
         }
     },
     "type": "object",
-    "patternProperties": {
-        "^[A-Z]{3}$": {
-            "$ref": "#/definitions/teamRoster"
+    "properties": {
+        "matchups": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/nbaTeamAbbreviation"
+                }
+            }
+        },
+        "lineups": {
+            "patternProperties": {
+                "^[A-Z]{3}$": {
+                    "$ref": "#/definitions/teamRoster"
+                }
+            }
         }
     }
 }
