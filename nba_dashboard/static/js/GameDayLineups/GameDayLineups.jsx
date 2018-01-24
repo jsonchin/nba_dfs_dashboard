@@ -6,7 +6,7 @@ import { PlayerLogs } from '../PlayerLogs'
 
 
 const MATCHUP_STYLE = {
-    margin: '10px',
+    margin: '20px',
     display: 'inline-block'
 };
 const LINEUP_STYLE = {
@@ -38,9 +38,16 @@ class GameDayLineup extends React.Component {
                     }
                 ]}
                 getTrProps={(state, rowInfo) => {
+                    let backgroundColor = '';
+                    if (rowInfo.original.isInjured) {
+                        backgroundColor = '#f45042';
+                    } else if (rowInfo.original.position != '') {
+                        backgroundColor = '#f6f6f6';
+                    }
+
                     return {
                         style: {
-                            background: rowInfo.original.position == '' ? '' : '#f6f6f6',
+                            background: backgroundColor,
                             height: '30px'
                         },
                         onClick: (e) => {
@@ -119,7 +126,7 @@ export class GameDayLineups extends React.Component {
             return (
                 <div style={{ textAlign: 'center', display: 'inline-block'
                 }}>
-                    <div style={{ width: '100vw', display: 'inline-block', textAlign: 'center' }}>
+                    <div style={{ width: '100%', display: 'inline-block', textAlign: 'center' }}>
                         {lineupMatchupTables}
                     </div>
                     <div id={'lineup-analysis-output'} style={{ margin: '10px', width: '45vw', display: 'inline-block' }}></div>
