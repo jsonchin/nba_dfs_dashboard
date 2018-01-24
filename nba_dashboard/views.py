@@ -7,6 +7,7 @@ from . import app
 
 
 @app.route('/')
+@app.route('/gameDayLineups')
 @app.route('/gameDateGames')
 @app.route('/gameDayAnalysis')
 def show_index():
