@@ -100,11 +100,23 @@ export class GameDayLineups extends React.Component {
 
 
     render() {
+        const rotowireLink = <a href='https://www.rotowire.com/basketball/nba_lineups.htm' target='_blank'
+            style={{
+                position: 'fixed',
+                right: '10px',
+                bottom: '5px',
+                fontSize: '12px'
+            }}
+        >rotowire</a>;
+
         const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>;
+            return (<div>
+                <div>Loading...</div>
+                {rotowireLink}
+            </div>);
         } else {
             const lineupsByTeam = this.state.data.lineups;
             const matchups = this.state.data.matchups;
@@ -130,6 +142,8 @@ export class GameDayLineups extends React.Component {
                         {lineupMatchupTables}
                     </div>
                     <div id={'lineup-analysis-output'} style={{ margin: '10px', width: '45vw', display: 'inline-block' }}></div>
+
+                    {rotowireLink}
                 </div>
             );
         }
