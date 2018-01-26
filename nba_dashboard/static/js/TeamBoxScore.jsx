@@ -80,6 +80,22 @@ export class TeamBoxScore extends React.Component {
                     }
                 ]}
                 Header={this.props.teamName}
+                getTrProps={(state, rowInfo) => {
+                    if (rowInfo === undefined) {
+                        return {};
+                    }
+
+                    let backgroundColor = '';
+                    if (rowInfo.original.COMMENT !== '' && !rowInfo.original.COMMENT.includes('Coach')) {
+                        backgroundColor = '#f45042';
+                    }
+
+                    return {
+                        style: {
+                            background: backgroundColor
+                        }
+                    }
+                }}
                 SubComponent={
                     (row) => {
                         return (
