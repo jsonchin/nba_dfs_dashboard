@@ -85,14 +85,9 @@ export class TeamBoxScore extends React.Component {
                         return {};
                     }
 
-                    let backgroundColor = '';
-                    if (rowInfo.original.COMMENT !== '' && !rowInfo.original.COMMENT.includes('Coach')) {
-                        backgroundColor = '#f45042';
-                    }
-
                     return {
                         style: {
-                            background: backgroundColor
+                            background: (rowInfo.original.COMMENT !== '' && !rowInfo.original.COMMENT.includes('Coach')) ? '#f45042' : ''
                         }
                     }
                 }}
