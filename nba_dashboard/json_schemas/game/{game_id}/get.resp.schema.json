@@ -1,29 +1,150 @@
 {
     "definitions": {
-        "teamPlayers": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/playerGameLog"
-            }
-        },
         "playerGameLog": {
-            "type": "array"
+            "type": "object",
+            "properties": {
+                "PLAYER_NAME": {
+                    "type": "string"
+                },
+                "TEAM_ABBREVIATION": {
+                    "type": "string"
+                },
+                "START_POSITION": {
+                    "type": "string"
+                },
+                "DK_FP": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "MIN": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "PTS": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "REB": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "AST": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "STL": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "BLK": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "NBA_TO": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "PLUS_MINUS": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "FGM": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "FG_PCT": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "FG3M": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "FG3_PCT": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "OREB": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "DREB": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "COMMENT": {
+                    "type": "string"
+                },
+                "PLAYER_ID": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "PLAYER_NAME",
+                "TEAM_ABBREVIATION",
+                "START_POSITION",
+                "DK_FP",
+                "MIN",
+                "PTS",
+                "REB",
+                "AST",
+                "STL",
+                "BLK",
+                "NBA_TO",
+                "PLUS_MINUS",
+                "FGM",
+                "FG_PCT",
+                "FG3M",
+                "FG3_PCT",
+                "OREB",
+                "DREB",
+                "COMMENT",
+                "PLAYER_ID"
+            ]
         }
     },
 
     "type": "object",
     "properties": {
-        "statNames": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
         "playersByTeam": {
             "type": "object",
             "patternProperties": {
                 "^[A-Z]{3}$": {
-                    "$ref": "#/definitions/teamPlayers"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/playerGameLog"
+                    }
                 }
             },
             "additionalProperties": false
@@ -31,7 +152,6 @@
     },
     "additionalProperties": false,
     "required": [
-        "statNames",
         "playersByTeam"
     ]
 }

@@ -5,19 +5,6 @@ import { PlayerLogs } from './PlayerLogs'
 import { PlayerProfile } from './PlayerProfile'
 
 
-const IGNORE_STATS = new Set([
-    'GAME_ID',
-    'FTA',
-    'FTM',
-    'FT_PCT',
-    'PF',
-    'TEAM_ABBREVIATION',
-    'COMMENT',
-    'FG3A',
-    'FGA',
-    'PLAYER_ID'
-]);
-
 const COLUMN_WIDTHS = {
     'PLAYER_NAME': 120,
     'GAME_DATE': 90,
@@ -66,13 +53,12 @@ export class TeamBoxScore extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
-            const columnNames = this.state.data.statNames;
+            const columnNames = ['PLAYER_NAME', 'START_POSITION', 'DK_FP', 'MIN', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'NBA_TO', 'PLUS_MINUS', 'FGM', 'FG_PCT', 'FG3M', 'FG3_PCT', 'OREB', 'DREB'];
             const header = this.props.teamAbbreviation;
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, IGNORE_STATS);
-            const mappedRows = mapMultipleRowsToCol(columnNames, this.state.data.players);
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS);
             return (<ReactTable
                 className={'-striped -highlight'}
-                data={mappedRows}
+                data={this.state.data.players}
                 columns={[
                     {
                         Header: () => <span><b>{header}</b></span>,

@@ -29,34 +29,31 @@ export function mapMultipleRowsToCol(colNames, rows) {
  * @param {String[]} colNames 
  * @param {Object} columnWidths 
  * @param {Object} headerMapping
- * @param {Set} ignoreCols 
  */
-export function constructReactTableColumns(colNames, columnWidths, headerMapping, ignoreCols) {
+export function constructReactTableColumns(colNames, columnWidths, headerMapping) {
     const reactTableColumns = [];
     colNames.forEach((colName) => {
-        if (!(ignoreCols.has(colName))) {
-            let width = undefined; // undefined is okay
-            if (colName in columnWidths) { // look at passed in mapping first
-                width = columnWidths[colName];
-            } else if (colName in SHARED_COLUMN_WIDTHS) { // then look at shared if not found in passed in
-                width = SHARED_COLUMN_WIDTHS[colName];
-            }
-
-            let header = colName;
-            if (colName in headerMapping) {
-                header = headerMapping[colName];
-            } else if (colName in HEADER_MAP) {
-                header = HEADER_MAP[colName];
-            }
-
-            const colProps = {
-                'Header': <b>{header}</b>,
-                'accessor': colName,
-                'width': width,
-                'minWidth': undefined
-            };
-            reactTableColumns.push(colProps);
+        let width = undefined; // undefined is okay
+        if (colName in columnWidths) { // look at passed in mapping first
+            width = columnWidths[colName];
+        } else if (colName in SHARED_COLUMN_WIDTHS) { // then look at shared if not found in passed in
+            width = SHARED_COLUMN_WIDTHS[colName];
         }
+
+        let header = colName;
+        if (headerMapping && colName in headerMapping) {
+            header = headerMapping[colName];
+        } else if (colName in HEADER_MAP) {
+            header = HEADER_MAP[colName];
+        }
+
+        const colProps = {
+            'Header': <b>{header}</b>,
+            'accessor': colName,
+            'width': width,
+            'minWidth': undefined
+        };
+        reactTableColumns.push(colProps);
     });
     return reactTableColumns;
 };

@@ -1,19 +1,82 @@
 {
+    "definitions": {
+        "averages": {
+            "type": "object",
+            "properties": {
+                "DK_FP": {
+                    "type": "number"
+                },
+                "MIN": {
+                    "type": "number"
+                },
+                "PTS": {
+                    "type": "number"
+                },
+                "REB": {
+                    "type": "number"
+                },
+                "AST": {
+                    "type": "number"
+                },
+                "TOV": {
+                    "type": "number"
+                },
+                "STL": {
+                    "type": "number"
+                },
+                "BLK": {
+                    "type": "number"
+                },
+                "DD2": {
+                    "type": "number"
+                },
+                "TD3": {
+                    "type": "number"
+                },
+                "FGM": {
+                    "type": "number"
+                },
+                "FG_PCT": {
+                    "type": "number"
+                },
+                "FG3M": {
+                    "type": "number"
+                },
+                "FG3_PCT": {
+                    "type": "number"
+                },
+                "PLUS_MINUS": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "DK_FP",
+                "MIN",
+                "PTS",
+                "REB",
+                "AST",
+                "TOV",
+                "STL",
+                "BLK",
+                "DD2",
+                "TD3",
+                "FGM",
+                "FG_PCT",
+                "FG3M",
+                "FG3_PCT",
+                "PLUS_MINUS"
+            ]
+        }
+    },
     "type": "object",
     "properties": {
-        "statNames": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
         "averages": {
-            "type": "array"
+            "$ref": "#/definitions/averages"
         }
     },
     "additionalProperties": false,
     "required": [
-        "statNames",
         "averages"
     ]
 }

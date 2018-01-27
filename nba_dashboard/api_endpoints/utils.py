@@ -88,3 +88,14 @@ def get_team_abbrev_team_id_map():
     for row in rows:
         team_abbrev_to_team_id_map[row[1]] = row[0]
     return team_abbrev_to_team_id_map
+
+
+def map_rows_to_cols(rows, cols):
+    """
+    Returns a list of dictionaries.
+    Each dictionary is the column name to its corresponding row value.
+    """
+    mapped_rows = []
+    for row in rows:
+        mapped_rows.append({cols[i]: row[i] for i in range(len(cols))})
+    return mapped_rows

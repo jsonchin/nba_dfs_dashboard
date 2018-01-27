@@ -15,10 +15,6 @@ const headerMapping = {
     'position': 'P'
 };
 
-const ignoreCols = new Set([
-    'matchedPlayerId'
-]);
-
 const columnWidths = {
     'matchedName': 120,
     'formattedNBAMatchup': 90,
@@ -35,7 +31,7 @@ const gameDayPlayersStyle = {
 export class GameDayPlayers extends React.Component {
     render() {
         const colNames = ['matchedName', 'formattedNBAMatchup', 'position', 'salary'];
-        const columns = constructReactTableColumns(colNames, columnWidths, headerMapping, ignoreCols);
+        const columns = constructReactTableColumns(colNames, columnWidths, headerMapping);
 
         return (<ReactTable
             data={this.props.players}

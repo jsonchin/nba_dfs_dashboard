@@ -10,6 +10,7 @@ from flask import request, url_for
 import json
 from .. import app
 from .. import db_utils
+from .utils import map_rows_to_cols
 from collections import defaultdict
 
 CURRENT_SEASON = app.config['CURRENT_SEASON']
@@ -91,8 +92,7 @@ def player_logs_endpoint(player_id):
                 AND SEASON = (?)
             ORDER BY GAME_DATE DESC;""", (player_id, CURRENT_SEASON))
     resp = {}
-    resp['logs'] = db_query.rows
-    resp['statNames'] = db_query.column_names
+    resp['logs'] = map_rows_to_cols(db_query.rows, db_query.column_names)
     return json.dumps(resp)
 
 
@@ -133,6 +133,5 @@ def player_averages_endpoint(player_id):
             ORDER BY DATE_TO DESC
             LIMIT 1;""", (player_id, CURRENT_SEASON))
     resp = {}
-    resp['averages'] = db_query.rows[0]
-    resp['statNames'] = db_query.column_names
+    resp['averages'] = map_rows_to_cols(db_query.rows, db_query.column_names)[0]
     return json.dumps(resp)
