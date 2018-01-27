@@ -1,22 +1,105 @@
 {
+    "definitions": {
+        "log": {
+            "type": "object",
+            "properties": {
+                "GAME_ID": {
+                    "type": "string"
+                },
+                "TEAM_ABBREVIATION": {
+                    "type": "string"
+                },
+                "GAME_DATE": {
+                    "type": "string"
+                },
+                "MATCHUP": {
+                    "type": "string"
+                },
+                "DK_FP": {
+                    "type": "number"
+                },
+                "WL": {
+                    "type": "string"
+                },
+                "MIN": {
+                    "type": "number"
+                },
+                "PTS": {
+                    "type": "integer"
+                },
+                "REB": {
+                    "type": "integer"
+                },
+                "AST": {
+                    "type": "integer"
+                },
+                "TOV": {
+                    "type": "integer"
+                },
+                "STL": {
+                    "type": "integer"
+                },
+                "BLK": {
+                    "type": "integer"
+                },
+                "DD2": {
+                    "type": "integer"
+                },
+                "TD3": {
+                    "type": "integer"
+                },
+                "FGM": {
+                    "type": "integer"
+                },
+                "FG_PCT": {
+                    "type": "number"
+                },
+                "FG3M": {
+                    "type": "integer"
+                },
+                "FG3_PCT": {
+                    "type": "number"
+                },
+                "PLUS_MINUS": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "GAME_ID",
+                "TEAM_ABBREVIATION",
+                "GAME_DATE",
+                "MATCHUP",
+                "DK_FP",
+                "WL",
+                "MIN",
+                "PTS",
+                "REB",
+                "AST",
+                "TOV",
+                "STL",
+                "BLK",
+                "DD2",
+                "TD3",
+                "FGM",
+                "FG_PCT",
+                "FG3M",
+                "FG3_PCT",
+                "PLUS_MINUS"
+            ]
+        }  
+    },
     "type": "object",
     "properties": {
-        "statNames": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
         "logs": {
             "type": "array",
             "items": {
-                "type": "array"
+                "$ref": "#/definitions/log"
             }
         }
     },
     "additionalProperties": false,
     "required": [
-        "statNames",
         "logs"
     ]
 }
