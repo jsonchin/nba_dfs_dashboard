@@ -52,7 +52,7 @@ export class PlayerLogs extends React.Component {
         } else {
             const columnNames = ['GAME_DATE', 'MATCHUP', 'DK_FP', 'WL', 'MIN', 'PTS', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'DD2', 'TD3', 'FGM', 'FG_PCT', 'FG3M', 'FG3_PCT', 'PLUS_MINUS'];
             const rows = this.state.data.logs;
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, new Set());
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS);
 
             return (<ReactTable
                 className={'-striped -highlight'}

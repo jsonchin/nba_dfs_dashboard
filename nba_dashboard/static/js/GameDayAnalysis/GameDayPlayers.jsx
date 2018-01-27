@@ -31,7 +31,7 @@ const gameDayPlayersStyle = {
 export class GameDayPlayers extends React.Component {
     render() {
         const colNames = ['matchedName', 'formattedNBAMatchup', 'position', 'salary'];
-        const columns = constructReactTableColumns(colNames, columnWidths, headerMapping, new Set());
+        const columns = constructReactTableColumns(colNames, columnWidths, headerMapping);
 
         return (<ReactTable
             data={this.props.players}

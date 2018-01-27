@@ -55,7 +55,7 @@ export class TeamBoxScore extends React.Component {
         } else {
             const columnNames = ['PLAYER_NAME', 'START_POSITION', 'DK_FP', 'MIN', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'NBA_TO', 'PLUS_MINUS', 'FGM', 'FG_PCT', 'FG3M', 'FG3_PCT', 'OREB', 'DREB'];
             const header = this.props.teamAbbreviation;
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, new Set());
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS);
             return (<ReactTable
                 className={'-striped -highlight'}
                 data={this.state.data.players}
