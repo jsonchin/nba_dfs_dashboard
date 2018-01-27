@@ -9,6 +9,7 @@ from flask import request, url_for
 import json
 from .. import app
 from .. import db_utils
+from .utils import map_rows_to_cols
 from collections import defaultdict
 
 
@@ -24,7 +25,7 @@ def game_endpoint(game_id):
         - injury data
     """
     db_query = db_utils.execute_sql("""
-        SELECT
+         SELECT
                 PLAYER_NAME,
                 TEAM_ABBREVIATION,
                 START_POSITION,
@@ -38,23 +39,17 @@ def game_endpoint(game_id):
                 MIN,
                 PTS,
                 REB,
-                OREB,
-                DREB,
                 AST,
                 STL,
                 BLK,
                 NBA_TO,
                 PLUS_MINUS,
-                PF,
                 FGM,
-                FGA,
                 FG_PCT,
                 FG3M,
-                FG3A,
                 FG3_PCT,
-                FTM,
-                FTA,
-                FT_PCT,
+                OREB,
+                DREB,
                 COMMENT,
                 PLAYER_ID
             FROM GAME_INFO_TRADITIONAL
@@ -62,23 +57,19 @@ def game_endpoint(game_id):
                 AND SEASON = (?)
             ORDER BY DK_FP DESC;""", (game_id, CURRENT_SEASON))
 
-    stat_names = db_query.column_names
-    try:
-        team_abbrev_index = stat_names.index('TEAM_ABBREVIATION')
-    except:
-        raise ValueError(
-            'GAME_INFO_TRADITIONAL does not have column TEAM_ABBREVIATION')
+    mapped_rows = map_rows_to_cols(db_query.rows, db_query.column_names)
+
     players_by_team_abbrev = defaultdict(list)
-    for row in db_query.rows:
-        team_abbrev = row[team_abbrev_index]
-        players_by_team_abbrev[team_abbrev].append(row)
+    for player in mapped_rows:
+        team_abbrev = player['TEAM_ABBREVIATION']
+        players_by_team_abbrev[team_abbrev].append(player)
 
     if len(players_by_team_abbrev.keys()) != 2:
         raise ValueError(
             'Invalid data in the database. Did not find two teams.')
+
     resp = {}
     resp['playersByTeam'] = dict(players_by_team_abbrev)
-    resp['statNames'] = db_query.column_names
     return json.dumps(resp)
 
 
@@ -110,18 +101,12 @@ def game_team_specific_endpoint(game_id, team_abbreviation):
                 BLK,
                 NBA_TO,
                 PLUS_MINUS,
-                PF,
                 FGM,
-                FGA,
                 FG_PCT,
                 FG3M,
-                FG3A,
                 FG3_PCT,
                 OREB,
                 DREB,
-                FTM,
-                FTA,
-                FT_PCT,
                 COMMENT,
                 PLAYER_ID
             FROM GAME_INFO_TRADITIONAL
@@ -135,6 +120,5 @@ def game_team_specific_endpoint(game_id, team_abbreviation):
             team_abbreviation, game_id))
 
     resp = {}
-    resp['players'] = db_query.rows
-    resp['statNames'] = db_query.column_names
+    resp['players'] = map_rows_to_cols(db_query.rows, db_query.column_names)
     return json.dumps(resp)
