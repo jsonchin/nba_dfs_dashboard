@@ -1,6 +1,6 @@
 # NBA DFS Dashboard
 
-A react app to display various NBA DFS tools and a python flask backend to serve data.
+A react app to display various NBA DFS tools and a python flask backend to serve data through a json api.
 
 ## Motivation
 
@@ -13,7 +13,7 @@ I've been able to scrape data easily using my [other tool](https://github.com/js
 - A tool to look up past game box scores and lookup past player logs without having to open a new tab or new page
 - A tool to look at lineups and past injuries and once again lookup past player logs or box scores without having to open a new page
 
-Very temporary instructions:
+## Instructions
 
 1) Setup and install the needed python and npm packages
 ```
