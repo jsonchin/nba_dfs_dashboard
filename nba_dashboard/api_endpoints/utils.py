@@ -36,7 +36,13 @@ PLAYER_CORRECTION_MAP = {
     'James Ennis': 'James Ennis III',
     'G. Antetokounmpo': 'Giannis Antetokounmpo',
     'Tim Hardaway': 'Tim Hardaway Jr.',
-    'M. Kidd-Gilchrist': 'Michael Kidd-Gilchrist'
+    'M. Kidd-Gilchrist': 'Michael Kidd-Gilchrist',
+    'K. Porzingis': 'Kristaps Porzingis',
+    'N. Collison': 'Nick Collison',
+    'Guillermo Hernangomez': 'Willy Hernangomez',
+    'C. Onuaku': 'Chinanu Onuaku',
+    'M. Carter-Williams': 'Michael Carter-Williams',
+    'R. Hollis-Jefferson': 'Rondae Hollis-Jefferson'
 }
 
 TEAM_ABBREV_MAPPING = {
