@@ -5,7 +5,6 @@ run:
 	flask run
 
 setup:
-	python setup.py;
 	cd nba_dashboard/static; \
 	npm i webpack; \
 	npm i babel-core babel-loader babel-preset-es2015 babel-preset-react; \
