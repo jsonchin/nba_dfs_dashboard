@@ -3,16 +3,6 @@ import ReactTable from 'react-table'
 import { mapMultipleRowsToCol, constructReactTableColumns } from './utils'
 
 
-const IGNORE_STATS = new Set([
-    'FTA',
-    'FTM',
-    'FT_PCT',
-    'PF',
-    'TEAM_ABBREVIATION',
-    'FG3A',
-    'FGA'
-]);
-
 const COLUMN_WIDTHS = {
     'MIN': 40
 };
@@ -58,15 +48,13 @@ export class PlayerAverages extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
-            const columnNames = this.state.data.statNames;
-            const row = this.state.data.averages;
-            const rows = [row];
-            const mappedRows = mapMultipleRowsToCol(columnNames, rows);
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, IGNORE_STATS);
+            const columnNames = ['DK_FP', 'MIN', 'PTS', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'DD2', 'TD3', 'FGM', 'FG_PCT', 'FG3M', 'FG3_PCT', 'PLUS_MINUS'];
+            const rows = [this.state.data.averages];
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, new Set());
 
             return (<ReactTable
                 className={'-striped -highlight'}
-                data={mappedRows}
+                data={rows}
                 columns={columns}
                 sortable={false}
                 resizable={false}

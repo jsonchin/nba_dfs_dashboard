@@ -4,17 +4,6 @@ import { mapMultipleRowsToCol, constructReactTableColumns } from './utils'
 import { TeamBoxScore } from './TeamBoxScore'
 
 
-const IGNORE_STATS = new Set([
-    'GAME_ID',
-    'FTA',
-    'FTM',
-    'FT_PCT',
-    'PF',
-    'TEAM_ABBREVIATION',
-    'FG3A',
-    'FGA'
-]);
-
 const COLUMN_WIDTHS = {
     'MIN': 40
 };
@@ -61,14 +50,13 @@ export class PlayerLogs extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
-            const columnNames = this.state.data.statNames;
+            const columnNames = ['GAME_DATE', 'MATCHUP', 'DK_FP', 'WL', 'MIN', 'PTS', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'DD2', 'TD3', 'FGM', 'FG_PCT', 'FG3M', 'FG3_PCT', 'PLUS_MINUS'];
             const rows = this.state.data.logs;
-            const mappedRows = mapMultipleRowsToCol(columnNames, rows);
-            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, IGNORE_STATS);
+            const columns = constructReactTableColumns(columnNames, COLUMN_WIDTHS, {}, new Set());
 
             return (<ReactTable
                 className={'-striped -highlight'}
-                data={mappedRows}
+                data={rows}
                 columns={columns}
                 sortable={false}
                 SubComponent={
