@@ -20,7 +20,7 @@ I've been able to scrape data easily using my [other tool](https://github.com/js
 make setup
 ```
 
-2) Configure the database path and name in `nba_dashboard/config.py` which uses tables create from scrape jobs located in `api_requests.yaml`.
+2) Configure the database path and name in `nba_dashboard/config.py` which uses tables created from scrape jobs located in `api_requests.yaml`. These scrape jobs can be run using my [other tool](https://github.com/jsonchin/nba_stats_scraper_db_storage).
 
 3) Run the app
 ```
